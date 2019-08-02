@@ -40,6 +40,7 @@ from modulesNLM.utils import ScaleMinMax
 from modulesNLM.utils import ScaleDataSetLog
 from modulesNLM.utils import ScaleLogNormalScore
 from modulesNLM.utils import encodingFeatures
+from modulesNLM.checks_module import checkProcessCluster
 
 import pandas as pd
 
@@ -47,6 +48,7 @@ class serviceClustering(object):
 
     def __init__(self, dataSet, pathResponse, optionNormalize):
 
+        self.dataOriginal = dataSet
         self.optionNormalize = optionNormalize
         self.processDataSet(dataSet)#hacemos el preprocesamiento a los datos
         self.pathResponse = pathResponse
@@ -98,7 +100,7 @@ class serviceClustering(object):
             result = evaluationClustering.evaluationClustering(self.dataSet, self.applyClustering.labels)#evaluamos...
             numberGroups = len(list(set(self.applyClustering.labels)))
 
-            label1, label2 = checkMembersDistributionCluster(self.applyClustering.labels)
+            label1, label2 = self.checkMembersDistributionCluster(self.applyClustering.labels)
             response = ["K-Means", params, numberGroups, label1, label2, result.calinski, result.siluetas]
             responseProcess.append(response)
             contIndex+=1
@@ -118,7 +120,7 @@ class serviceClustering(object):
             result = evaluationClustering.evaluationClustering(self.dataSet, self.applyClustering.labels)#evaluamos...
             params = "K = %d" % k
             numberGroups = len(list(set(self.applyClustering.labels)))
-            label1, label2 = checkMembersDistributionCluster(self.applyClustering.labels)
+            label1, label2 = self.checkMembersDistributionCluster(self.applyClustering.labels)
             response = ["Birch", params, numberGroups, label1, label2, result.calinski, result.siluetas]
             responseProcess.append(response)
             contIndex+=1
@@ -139,7 +141,7 @@ class serviceClustering(object):
                     result = evaluationClustering.evaluationClustering(self.dataSet, self.applyClustering.labels)#evaluamos...
                     params = "affinity = %s linkage = %s k = %d" % (affinity, linkage, k)
                     numberGroups = len(list(set(self.applyClustering.labels)))
-                    label1, label2 = checkMembersDistributionCluster(self.applyClustering.labels)
+                    label1, label2 = self.checkMembersDistributionCluster(self.applyClustering.labels)
                     response = ["AgglomerativeClustering", params, numberGroups, label1, label2, result.calinski, result.siluetas]
                     responseProcess.append(response)
                     contIndex+=1
@@ -153,14 +155,69 @@ class serviceClustering(object):
         #exportamos el resultado en formato dataframe
         self.dataFrame = pd.DataFrame(responseProcess, columns=header, index=indexResponse)
         self.dataFrameLog = pd.DataFrame(logResponsesError, columns=["Message Error"], index = indexResponseError)
-        dataFrame.to_csv(self.pathResponse+"ResponseProcess_Job_Clustering.csv")
-        dataFrameLog.to_csv(self.pathResponse+"ResponseProcess_Job_Clustering_Error.csv")
+        self.dataFrame.to_csv(self.pathResponse+"ResponseProcess_Job_Clustering.csv", index=indexResponse)
+        self.dataFrameLog.to_csv(self.pathResponse+"ResponseProcess_Job_Clustering_Error.csv", index=indexResponseError)
 
         #generamos el resumen del proceso
-        #summary = summaryScan.summaryProcessClusteringScan(dataFrame, self.pathResponse+"ResponseProcess_Job_Clustering.csv", self.pathResponse)
-        #summary.createHistogram()
+        summary = summaryScan.summaryProcessClusteringScan(self.dataFrame, self.pathResponse+"ResponseProcess_Job_Clustering.csv", self.pathResponse)
+        summary.createHistogram()
         #summary.createRankingFile()
-        #summary.createStatisticSummary()
+        summary.createStatisticSummary()
+
+        #chequeamos el procesos de clustering y entregamos la informacion
+        checkData = checkProcessCluster.checkProcess(self.dataFrame)
+
+        #dado el candidato obtenemos los valores de los elementos
+        #header = ["algorithm", "params", "groups", "memberG1", "memberG2", "calinski_harabaz_score", "silhouette_score"]
+        rowValues = []
+        for key in self.dataFrame:
+            rowValues.append(list(self.dataFrame[key])[checkData.candidato])
+
+        #evaluamos que sucede con la informacion
+        if checkData.checkSplitter(rowValues[3], rowValues[4], 5) == 1:
+            #ejecutamos el cluster y formamos los data set con las divisiones
+            if rowValues[0] == "K-Means":
+                self.applyClustering.aplicateKMeans(2)#se aplica el algoritmo...
+
+            elif rowValues[0] == "AgglomerativeClustering":
+                #obtenemos el linkage y el affinity
+                params = rowValues[1].split(" ")
+                affinity = params[2]
+                linkage = params[5]
+                self.applyClustering.aplicateAlgomerativeClustering(linkage, affinity, 2)#se aplica el algoritmo...
+
+            else:
+                self.applyClustering.aplicateBirch(2)
+
+            #formamos los dataframe con los conjuntos de datos generados
+            print self.applyClustering.labels
+            matrixGroup1 = []
+            matrixGroup2 = []
+
+            for i in range(len(self.applyClustering.labels)):
+                row = []
+                for key in self.dataOriginal:
+                    row.append(self.dataOriginal[key][i])
+                if self.applyClustering.labels[i] == 0:
+                    matrixGroup1.append(row)
+                else:
+                    matrixGroup2.append(row)
+
+            #formamos los dataFrame y exportamos los resultados
+            header = []
+            for key in self.dataOriginal:
+                header.append(key)
+
+            dataG1 = pd.DataFrame(matrixGroup1, columns=header)
+            dataG2 = pd.DataFrame(matrixGroup2, columns=header)
+
+            dataG1.to_csv(self.pathResponse+"group1.csv", index=False)
+            dataG2.to_csv(self.pathResponse+"group2.csv", index=False)
+
+            return 1#podemos seguir dividiendo
+        else:
+
+            return -1#no se puede seguir dividiendo
 
     #funcion que permite poder contar los elementos de la clase o categoria indicada
     def checkMembersDistributionCluster(self, labels):

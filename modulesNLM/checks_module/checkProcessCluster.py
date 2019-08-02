@@ -23,9 +23,61 @@ import numpy as np
 
 class checkProcess(object):
 
-    def __init__(self, dataFrame, numExamples):
+    def __init__(self, dataFrame):
 
         self.dataFrame = dataFrame
-        self.numExamples = numExamples
 
-        
+        #obtenemos los maximos coeficientes
+        maxCalinski = max(self.dataFrame['calinski_harabaz_score'])
+        maxSiluetas = max(self.dataFrame['silhouette_score'])
+
+        print maxCalinski
+        print maxSiluetas
+        self.candidato = self.getCandidateIndexScore(maxCalinski, maxSiluetas)
+
+    #funcion que permite obtener los candidatos con los valores maximos de calinski y siluetas
+    def getCandidateIndexScore(self, maxCalinski, maxSiluetas):
+
+        indexCandCal = []
+        indexCandSil = []
+
+        index=0
+        for element in self.dataFrame['calinski_harabaz_score']:
+            if element == maxCalinski:
+                indexCandCal.append(index)
+            index+=1
+
+        index=0
+        for element in self.dataFrame['silhouette_score']:
+            if element == maxSiluetas:
+                indexCandSil.append(index)
+            index+=1
+
+        print indexCandCal
+        print indexCandSil
+
+        #buscamos los calisnki que estan en ambas listas, si no existen, solo tomamos el primer elemento
+        indexCandidato = -1
+
+        for element in indexCandCal:
+            if element in indexCandSil:
+                indexCandidato=element
+                break
+
+        if indexCandidato == -1:
+            indexCandidato = indexCandCal[0]
+
+        return indexCandidato
+
+    #funcion que permite evaluar la cantidad de ejemplos por division
+    def checkSplitter(self, member1, member2, threshold):
+        total = member1+member2
+
+        member1= float(member1)/float(total)*100
+        member2= float(member2)/float(total)*100
+        print member1
+        print member2
+        if member1<threshold or member2< threshold:#no cumple con criterio de tamano
+            return -1
+        else:#si cumple con criterio de tamano
+            return 1

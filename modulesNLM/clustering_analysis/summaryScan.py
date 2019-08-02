@@ -37,7 +37,7 @@ class summaryProcessClusteringScan(object):
     #metodo que permite hacer los histogramas por las medidas de desempeno
     def createHistogram(self):
 
-        keys = ['calinski_harabaz_score', 'silhouette_score', 'groups']
+        keys = ['calinski_harabaz_score', 'silhouette_score']
 
         graphic = createCharts.graphicsCreator()
 

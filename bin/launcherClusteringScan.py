@@ -4,8 +4,7 @@
 # Script that allows to run the clustering service,
 # input:
 #     dataSet
-#     job
-#     user
+#     Option normalize
 #     pathResponse
 # response:
 #     csv error process
@@ -30,8 +29,8 @@
 # Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 ########################################################################
 
-from DMA_Kit_Modules.clustering_analysis import callService
-from DMA_Kit_Modules.utils import responseResults
+from modulesNLM.clustering_analysis import callService
+from modulesNLM.utils import responseResults
 
 import sys
 import pandas as pd
