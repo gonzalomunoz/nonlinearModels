@@ -40,6 +40,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--dataSet", help="full path and name to acces dataSet input process", required=True)
 parser.add_argument("-o", "--option", type=int, help="Option to Normalize data set: 1. Normal Scale\n2. Min Max Scaler\n3. Log scale\n4. Log normal scale", required=True)
 parser.add_argument("-p", "--pathResult", help="full path for save results", required=True)
+parser.add_argument("-r", "--response", help="Name response in dataset", required=True)
+parser.add_argument("-k", "--kind", type=int, help="Kind of dataset: 1. Classification 2. Regression", required=True)
+parser.add_argument("-t", "--threshold", type=int, help="threshold for umbalanced class", required=True)
 args = parser.parse_args()
 
 #hacemos las validaciones asociadas a si existe el directorio y el set de datos
@@ -53,10 +56,14 @@ if (processData.validatePath(args.pathResult) == 0):
         dataSet = pd.read_csv(args.dataSet)
         pathResponse = args.pathResult
         optionNormalize = int(args.option)
+        featureClass = args.response
+        kindDataSet = int(args.kind)
+        threshold = int(args.threshold)
 
         #instancia al objeto
-        callServiceObject = callService.serviceClustering(dataSet, pathResponse, optionNormalize)
-        callServiceObject.execProcess()
+        callServiceObject = callService.serviceClustering(dataSet, pathResponse, optionNormalize, featureClass, kindDataSet, threshold)
+        response = callServiceObject.execProcess()
+        print response
     else:
         print "Data set input not exist, please check the input for name file data set"
 else:

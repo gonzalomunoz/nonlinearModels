@@ -25,7 +25,7 @@ class encodingFeatures(object):
                 self.dataSet[key][i] = dictValues[key][self.dataSet[key][i]]
 
     #funcion que permite implementar one hot Encoder
-    def oneHotEncoderData(dictValues, dataSet):
+    def oneHotEncoderData(self, dictValues, dataSet):
 
         matrix = []
 
@@ -95,5 +95,5 @@ class encodingFeatures(object):
                 self.dataSet[feature] = column
 
             #por cada columna en el diccionario la eliminamos
-            for key in matrixDict:
+            for key in self.matrixDict:
                 self.dataSet.drop([key], axis='columns', inplace=True)

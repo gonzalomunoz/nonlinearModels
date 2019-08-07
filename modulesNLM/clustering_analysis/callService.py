@@ -46,19 +46,36 @@ import pandas as pd
 
 class serviceClustering(object):
 
-    def __init__(self, dataSet, pathResponse, optionNormalize):
+    def __init__(self, dataSet, pathResponse, optionNormalize, featureClass, kindDataSet, threshold):
 
-        self.dataOriginal = dataSet
+        self.dataOriginal = dataSet#matriz de elementos
+        self.featureClass = featureClass#nombre de la columna respuesta
+        self.kindDataSet = kindDataSet#tipo de set de datos: clasificacion/regresion
         self.optionNormalize = optionNormalize
-        self.processDataSet(dataSet)#hacemos el preprocesamiento a los datos
+        self.threshold = threshold#umbral de desbalance aceptado
+        self.processDataSet()#hacemos el preprocesamiento a los datos
         self.pathResponse = pathResponse
         self.applyClustering = processClustering.aplicateClustering(self.dataSet)
 
     #metodo que permite procesar el set de datos segun la opcion del usuario a normalizar
-    def processDataSet(self, dataSetInput):
+    def processDataSet(self):
+
+        self.dataResponse = self.dataOriginal[self.featureClass]#obtenemos la variable respuesta
+
+        dictData = {}
+
+        for key in self.dataOriginal:
+            if key != self.featureClass:
+                arrayFeature = []
+                for i in self.dataOriginal[key]:
+                    arrayFeature.append(i)
+                dictData.update({key:arrayFeature})
+
+        #formamos el nuevo set de datos...
+        self.dataSet = pd.DataFrame(dictData)
 
         #codificacion de variables categoricas
-        encoding = encodingFeatures.encodingFeatures(dataSetInput, 20)
+        encoding = encodingFeatures.encodingFeatures(self.dataSet, 20)
         encoding.evaluEncoderKind()
         dataSetNewFreq = encoding.dataSet
 
@@ -173,7 +190,7 @@ class serviceClustering(object):
         for key in self.dataFrame:
             rowValues.append(list(self.dataFrame[key])[checkData.candidato])
 
-        #evaluamos que sucede con la informacion
+        #evaluamos que sucede con la informacion, el 5 implica que supere el 5% de la totalidad la muestra de datos
         if checkData.checkSplitter(rowValues[3], rowValues[4], 5) == 1:
             #ejecutamos el cluster y formamos los data set con las divisiones
             if rowValues[0] == "K-Means":
@@ -190,7 +207,6 @@ class serviceClustering(object):
                 self.applyClustering.aplicateBirch(2)
 
             #formamos los dataframe con los conjuntos de datos generados
-            print self.applyClustering.labels
             matrixGroup1 = []
             matrixGroup2 = []
 
@@ -211,10 +227,22 @@ class serviceClustering(object):
             dataG1 = pd.DataFrame(matrixGroup1, columns=header)
             dataG2 = pd.DataFrame(matrixGroup2, columns=header)
 
-            dataG1.to_csv(self.pathResponse+"group1.csv", index=False)
-            dataG2.to_csv(self.pathResponse+"group2.csv", index=False)
+            if self.kindDataSet == 1:#el set de datos corresponde a clasificacion
+                #evaluamos el desbalance de clases en cada conjunto de datos generados
+                responseUG1 = checkData.checkEvalClass(dataG1[self.featureClass], self.threshold)
+                responseUG2 = checkData.checkEvalClass(dataG2[self.featureClass], self.threshold)
 
-            return 1#podemos seguir dividiendo
+                if responseUG1 ==0 and responseUG2 ==0:
+                    dataG1.to_csv(self.pathResponse+"group1.csv", index=False)
+                    dataG2.to_csv(self.pathResponse+"group2.csv", index=False)
+
+                    return 1#podemos seguir dividiendo
+                else:
+                    return -2#se genero un desbalance de clases
+            else:
+                dataG1.to_csv(self.pathResponse+"group1.csv", index=False)
+                dataG2.to_csv(self.pathResponse+"group2.csv", index=False)
+
         else:
 
             return -1#no se puede seguir dividiendo

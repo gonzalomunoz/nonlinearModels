@@ -81,3 +81,35 @@ class checkProcess(object):
             return -1
         else:#si cumple con criterio de tamano
             return 1
+
+    #funcion que permite evaluar la proporcion de las clases si corresponde
+    def checkEvalClass(self, listResponse, threshold):
+
+        classElement = list(set(listResponse))
+
+        if len(classElement)>1:
+
+            arrayProportion = []
+
+            for element in classElement:
+                count=0
+                for data in listResponse:
+                    if data == element:
+                        count+=1
+                count = float(count)/len(listResponse) * 100#sacamos el porcentaje
+
+                arrayProportion.append(count)
+
+            response=0
+            #evaluamos si existe desbalance
+            for proportion in arrayProportion:
+                if proportion <= threshold:
+                    response=-1
+                    break
+
+            if response == 0:
+                return 0#el conjunto de datos se encuentra balanceado
+            else:
+                return -1
+        else:
+            return -1
