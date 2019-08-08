@@ -31,30 +31,30 @@ import datetime
 import json
 import argparse
 
-from DMA_Kit_Modules.supervised_learning_analysis import AdaBoost
-from DMA_Kit_Modules.supervised_learning_analysis import Baggin
-from DMA_Kit_Modules.supervised_learning_analysis import BernoulliNB
-from DMA_Kit_Modules.supervised_learning_analysis import DecisionTree
-from DMA_Kit_Modules.supervised_learning_analysis import GaussianNB
-from DMA_Kit_Modules.supervised_learning_analysis import Gradient
-from DMA_Kit_Modules.supervised_learning_analysis import knn
-from DMA_Kit_Modules.supervised_learning_analysis import MLP
-from DMA_Kit_Modules.supervised_learning_analysis import NuSVM
-from DMA_Kit_Modules.supervised_learning_analysis import RandomForest
-from DMA_Kit_Modules.supervised_learning_analysis import SVM
-from DMA_Kit_Modules.statistics_analysis import summaryStatistic
+from modulesNLM.supervised_learning_analysis import AdaBoost
+from modulesNLM.supervised_learning_analysis import Baggin
+from modulesNLM.supervised_learning_analysis import BernoulliNB
+from modulesNLM.supervised_learning_analysis import DecisionTree
+from modulesNLM.supervised_learning_analysis import GaussianNB
+from modulesNLM.supervised_learning_analysis import Gradient
+from modulesNLM.supervised_learning_analysis import knn
+from modulesNLM.supervised_learning_analysis import MLP
+from modulesNLM.supervised_learning_analysis import NuSVM
+from modulesNLM.supervised_learning_analysis import RandomForest
+from modulesNLM.supervised_learning_analysis import SVM
+from modulesNLM.statistics_analysis import summaryStatistic
 
 #utils para el manejo de set de datos y su normalizacion
-from DMA_Kit_Modules.utils import transformDataClass
-from DMA_Kit_Modules.utils import transformFrequence
-from DMA_Kit_Modules.utils import ScaleNormalScore
-from DMA_Kit_Modules.utils import ScaleMinMax
-from DMA_Kit_Modules.utils import ScaleDataSetLog
-from DMA_Kit_Modules.utils import ScaleLogNormalScore
+from modulesNLM.utils import transformDataClass
+from modulesNLM.utils import transformFrequence
+from modulesNLM.utils import ScaleNormalScore
+from modulesNLM.utils import ScaleMinMax
+from modulesNLM.utils import ScaleDataSetLog
+from modulesNLM.utils import ScaleLogNormalScore
 
-from DMA_Kit_Modules.utils import summaryScanProcess
-from DMA_Kit_Modules.utils import responseResults
-from DMA_Kit_Modules.utils import encodingFeatures
+from modulesNLM.utils import summaryScanProcess
+from modulesNLM.utils import responseResults
+from modulesNLM.utils import encodingFeatures
 
 #funcion que permite calcular los estadisticos de un atributo en el set de datos, asociados a las medidas de desempeno
 def estimatedStatisticPerformance(summaryObject, attribute):
@@ -112,7 +112,7 @@ if (processData.validatePath(args.pathResult) == 0):
         encoding = encodingFeatures.encodingFeatures(dataValues, 20)
         encoding.evaluEncoderKind()
         dataSetNewFreq = encoding.dataSet
-        
+
         #ahora aplicamos el procesamiento segun lo expuesto
         applyNormal = ScaleNormalScore.applyNormalScale(dataSetNewFreq)
         data = applyNormal.dataTransform
@@ -137,6 +137,7 @@ if (processData.validatePath(args.pathResult) == 0):
                 except:
                     iteracionesIncorrectas+=1
                     pass
+
         #Baggin
         for bootstrap in [True, False]:
             for n_estimators in [10,50,100,200,500,1000,1500,2000]:
@@ -233,7 +234,7 @@ if (processData.validatePath(args.pathResult) == 0):
                         print "Excec NuSVM"
                         nuSVM = NuSVM.NuSVM(data, target, kernel, nu, degree, 0.01, 10)
                         nuSVM.trainingMethod(kindDataSet)
-                        params = "kernel:%s-nu:%f-degree:%d-gamma:%f" % (kernel, nu, degree, gamma)
+                        params = "kernel:%s-nu:%f-degree:%d" % (kernel, nu, degree)
                         row = ["NuSVM", params, "CV-10", nuSVM.performanceData.scoreData[3], nuSVM.performanceData.scoreData[4], nuSVM.performanceData.scoreData[5], nuSVM.performanceData.scoreData[6]]
                         matrixResponse.append(row)
                         iteracionesCorrectas+=1
@@ -249,7 +250,7 @@ if (processData.validatePath(args.pathResult) == 0):
                         print "Excec SVM"
                         svm = SVM.SVM(data, target, kernel, C_value, degree, 0.01, 10)
                         svm.trainingMethod(kindDataSet)
-                        params = "kernel:%s-c:%f-degree:%d-gamma:%f" % (kernel, C_value, degree, gamma)
+                        params = "kernel:%s-c:%f-degree:%d" % (kernel, C_value, degree)
                         row = ["SVM", params, "CV-10", svm.performanceData.scoreData[3], svm.performanceData.scoreData[4], svm.performanceData.scoreData[5], svm.performanceData.scoreData[6]]
                         matrixResponse.append(row)
                         iteracionesCorrectas+=1

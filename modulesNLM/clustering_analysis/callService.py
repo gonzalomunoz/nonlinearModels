@@ -242,7 +242,7 @@ class serviceClustering(object):
             else:
                 dataG1.to_csv(self.pathResponse+"group1.csv", index=False)
                 dataG2.to_csv(self.pathResponse+"group2.csv", index=False)
-
+                return 1#podemos seguir dividiendo
         else:
 
             return -1#no se puede seguir dividiendo

@@ -36,30 +36,30 @@ import datetime
 import json
 import argparse
 
-from DMA_Kit_Modules.supervised_learning_predicction import AdaBoost
-from DMA_Kit_Modules.supervised_learning_predicction import Baggin
-from DMA_Kit_Modules.supervised_learning_predicction import DecisionTree
-from DMA_Kit_Modules.supervised_learning_predicction import Gradient
-from DMA_Kit_Modules.supervised_learning_predicction import knn_regression
-from DMA_Kit_Modules.supervised_learning_predicction import MLP
-from DMA_Kit_Modules.supervised_learning_predicction import NuSVR
-from DMA_Kit_Modules.supervised_learning_predicction import RandomForest
-from DMA_Kit_Modules.supervised_learning_predicction import SVR
-from DMA_Kit_Modules.statistics_analysis import summaryStatistic
+from modulesNLM.supervised_learning_predicction import AdaBoost
+from modulesNLM.supervised_learning_predicction import Baggin
+from modulesNLM.supervised_learning_predicction import DecisionTree
+from modulesNLM.supervised_learning_predicction import Gradient
+from modulesNLM.supervised_learning_predicction import knn_regression
+from modulesNLM.supervised_learning_predicction import MLP
+from modulesNLM.supervised_learning_predicction import NuSVR
+from modulesNLM.supervised_learning_predicction import RandomForest
+from modulesNLM.supervised_learning_predicction import SVR
+from modulesNLM.statistics_analysis import summaryStatistic
 
 #utils para el manejo de set de datos y su normalizacion
-from DMA_Kit_Modules.utils import transformDataClass
-from DMA_Kit_Modules.utils import transformFrequence
-from DMA_Kit_Modules.utils import ScaleNormalScore
-from DMA_Kit_Modules.utils import ScaleMinMax
-from DMA_Kit_Modules.utils import ScaleDataSetLog
-from DMA_Kit_Modules.utils import ScaleLogNormalScore
-from DMA_Kit_Modules.utils import summaryScanProcess
-from DMA_Kit_Modules.utils import responseResults
-from DMA_Kit_Modules.utils import encodingFeatures
+from modulesNLM.utils import transformDataClass
+from modulesNLM.utils import transformFrequence
+from modulesNLM.utils import ScaleNormalScore
+from modulesNLM.utils import ScaleMinMax
+from modulesNLM.utils import ScaleDataSetLog
+from modulesNLM.utils import ScaleLogNormalScore
+from modulesNLM.utils import summaryScanProcess
+from modulesNLM.utils import responseResults
+from modulesNLM.utils import encodingFeatures
 
 #para evaluar la performance
-from DMA_Kit_Modules.supervised_learning_predicction import performanceData
+from modulesNLM.supervised_learning_predicction import performanceData
 
 #funcion que permite calcular los estadisticos de un atributo en el set de datos, asociados a las medidas de desempeno
 def estimatedStatisticPerformance(summaryObject, attribute):
@@ -128,9 +128,16 @@ if (processData.validatePath(args.pathResult) == 0):
 
                     #obtenemos el restante de performance
                     performanceValues = performanceData.performancePrediction(target, AdaBoostObject.predicctions.tolist())
-                    pearsonValue = performanceValues.calculatedPearson()
-                    spearmanValue = performanceValues.calculatedSpearman()
-                    kendalltauValue = performanceValues.calculatekendalltau()
+                    pearsonValue = performanceValues.calculatedPearson()['pearsonr']
+                    spearmanValue = performanceValues.calculatedSpearman()['spearmanr']
+                    kendalltauValue = performanceValues.calculatekendalltau()['kendalltau']
+
+                    if pearsonValue == "ERROR":
+                        pearsonValue=0
+                    if spearmanValue == "ERROR":
+                        spearmanValue=0
+                    if kendalltauValue == "ERROR":
+                        kendalltauValue=0
 
                     params = "loss:%s-n_estimators:%d" % (loss, n_estimators)
                     row = ["AdaBoostClassifier", params, AdaBoostObject.r_score, pearsonValue, spearmanValue, kendalltauValue]
@@ -153,6 +160,13 @@ if (processData.validatePath(args.pathResult) == 0):
                     spearmanValue = performanceValues.calculatedSpearman()['spearmanr']
                     kendalltauValue = performanceValues.calculatekendalltau()['kendalltau']
 
+                    if pearsonValue == "ERROR":
+                        pearsonValue=0
+                    if spearmanValue == "ERROR":
+                        spearmanValue=0
+                    if kendalltauValue == "ERROR":
+                        kendalltauValue=0
+
                     params = "bootstrap:%s-n_estimators:%d" % (str(bootstrap), n_estimators)
                     row = ["Bagging", params, bagginObject.r_score, pearsonValue, spearmanValue, kendalltauValue]
 
@@ -161,6 +175,7 @@ if (processData.validatePath(args.pathResult) == 0):
                 except:
                     iteracionesIncorrectas+=1
                     pass
+
 
         #DecisionTree
         for criterion in ['mse', 'friedman_mse', 'mae']:
@@ -174,6 +189,13 @@ if (processData.validatePath(args.pathResult) == 0):
                     pearsonValue = performanceValues.calculatedPearson()['pearsonr']
                     spearmanValue = performanceValues.calculatedSpearman()['spearmanr']
                     kendalltauValue = performanceValues.calculatekendalltau()['kendalltau']
+
+                    if pearsonValue == "ERROR":
+                        pearsonValue=0
+                    if spearmanValue == "ERROR":
+                        spearmanValue=0
+                    if kendalltauValue == "ERROR":
+                        kendalltauValue=0
 
                     params = "criterion:%s-splitter:%s" % (criterion, splitter)
                     row = ["DecisionTree", params, decisionTreeObject.r_score, pearsonValue, spearmanValue, kendalltauValue]
@@ -199,6 +221,13 @@ if (processData.validatePath(args.pathResult) == 0):
                                 spearmanValue = performanceValues.calculatedSpearman()['spearmanr']
                                 kendalltauValue = performanceValues.calculatekendalltau()['kendalltau']
 
+                                if pearsonValue == "ERROR":
+                                    pearsonValue=0
+                                if spearmanValue == "ERROR":
+                                    spearmanValue=0
+                                if kendalltauValue == "ERROR":
+                                    kendalltauValue=0
+
                                 params = "criterion:%s-n_estimators:%d-loss:%s-min_samples_split:%d-min_samples_leaf:%d" % (criterion, n_estimators, loss, min_samples_split, min_samples_leaf)
                                 row = ["GradientBoostingClassifier", params, gradientObject.r_score, pearsonValue, spearmanValue, kendalltauValue]
                                 matrixResponse.append(row)
@@ -206,6 +235,7 @@ if (processData.validatePath(args.pathResult) == 0):
                             except:
                                 iteracionesIncorrectas+=1
                                 pass
+
         #knn
         for n_neighbors in range(1,11):
             for algorithm in ['auto', 'ball_tree', 'kd_tree', 'brute']:
@@ -221,6 +251,13 @@ if (processData.validatePath(args.pathResult) == 0):
                             spearmanValue = performanceValues.calculatedSpearman()['spearmanr']
                             kendalltauValue = performanceValues.calculatekendalltau()['kendalltau']
 
+                            if pearsonValue == "ERROR":
+                                pearsonValue=0
+                            if spearmanValue == "ERROR":
+                                spearmanValue=0
+                            if kendalltauValue == "ERROR":
+                                kendalltauValue=0
+
                             params = "n_neighbors:%d-algorithm:%s-metric:%s-weights:%s" % (n_neighbors, algorithm, metric, weights)
                             row = ["KNeighborsClassifier", params, knnObect.r_score, pearsonValue, spearmanValue, kendalltauValue]
                             matrixResponse.append(row)
@@ -228,6 +265,7 @@ if (processData.validatePath(args.pathResult) == 0):
                         except:
                             iteracionesIncorrectas+=1
                             pass
+
         '''
         #MLP
         #activation, solver, learning_rate, hidden_layer_sizes_a,hidden_layer_sizes_b,hidden_layer_sizes_c, alpha, max_iter, shuffle
@@ -274,6 +312,13 @@ if (processData.validatePath(args.pathResult) == 0):
                             spearmanValue = performanceValues.calculatedSpearman()['spearmanr']
                             kendalltauValue = performanceValues.calculatekendalltau()['kendalltau']
 
+                            if pearsonValue == "ERROR":
+                                pearsonValue=0
+                            if spearmanValue == "ERROR":
+                                spearmanValue=0
+                            if kendalltauValue == "ERROR":
+                                kendalltauValue=0
+
                             params = "kernel:%s-nu:%f-degree:%d-gamma:%f" % (kernel, nu, degree, gamma)
                             row = ["NuSVM", params, nuSVM.r_score, pearsonValue, spearmanValue, kendalltauValue]
                             matrixResponse.append(row)
@@ -281,7 +326,6 @@ if (processData.validatePath(args.pathResult) == 0):
                         except:
                             iteracionesIncorrectas+=1
                             pass
-                        print matrixResponse
 
         #SVC
         for kernel in ['rbf', 'linear', 'poly', 'sigmoid', 'precomputed']:
@@ -297,6 +341,13 @@ if (processData.validatePath(args.pathResult) == 0):
                         spearmanValue = performanceValues.calculatedSpearman()['spearmanr']
                         kendalltauValue = performanceValues.calculatekendalltau()['kendalltau']
 
+                        if pearsonValue == "ERROR":
+                            pearsonValue=0
+                        if spearmanValue == "ERROR":
+                            spearmanValue=0
+                        if kendalltauValue == "ERROR":
+                            kendalltauValue=0
+
                         params = "kernel:%s-degree:%d-gamma:%f" % (kernel, degree, gamma)
                         row = ["SVM", params, svm.r_score, pearsonValue, spearmanValue, kendalltauValue]
                         matrixResponse.append(row)
@@ -304,7 +355,6 @@ if (processData.validatePath(args.pathResult) == 0):
                     except:
                         iteracionesIncorrectas+=1
                         pass
-
 
         #RF
         for n_estimators in [10,50,100,200,500,1000,1500,2000]:
@@ -322,6 +372,13 @@ if (processData.validatePath(args.pathResult) == 0):
                                 spearmanValue = performanceValues.calculatedSpearman()['spearmanr']
                                 kendalltauValue = performanceValues.calculatekendalltau()['kendalltau']
 
+                                if pearsonValue == "ERROR":
+                                    pearsonValue=0
+                                if spearmanValue == "ERROR":
+                                    spearmanValue=0
+                                if kendalltauValue == "ERROR":
+                                    kendalltauValue=0
+
                                 params = "n_estimators:%d-criterion:%s-min_samples_split:%d-min_samples_leaf:%d-bootstrap:%s" % (n_estimators, criterion, min_samples_split, min_samples_leaf, str(bootstrap))
                                 row = ["RandomForestRegressor", params, rf.r_score, pearsonValue, spearmanValue, kendalltauValue]
                                 matrixResponse.append(row)
@@ -329,8 +386,6 @@ if (processData.validatePath(args.pathResult) == 0):
                             except:
                                 iteracionesIncorrectas+=1
                                 pass
-                            print matrixResponse
-
 
         #generamos el export de la matriz convirtiendo a data frame
         dataFrame = pd.DataFrame(matrixResponse, columns=header)

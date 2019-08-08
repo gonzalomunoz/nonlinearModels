@@ -24,10 +24,11 @@ import random
 
 class createRandomDistribution(object):
 
-    def __init__(self, dataSet, n_splitter):
+    def __init__(self, dataSet, n_splitter, pathExport):
 
         self.dataSet = dataSet
         self.n_splitter = n_splitter
+        self.pathExport = pathExport
         self.getKeyAttribute()
 
     #funcion que permite obtener las listas de las columnas
@@ -41,8 +42,39 @@ class createRandomDistribution(object):
     def createRandomValuesDistribution(self):
 
         self.listIndex = list(range(0, len(self.dataSet)))
-        print len(self.dataSet)
-        print len(self.listIndex)
         random.shuffle(self.listIndex)
 
-        print self.listIndex
+    #funcion que crea sub conjuntos de datos dado los valores del array, genera los archivos en formato csv de la data
+    def createRandomSamples(self):
+        self.createRandomValuesDistribution()
+
+        #generamos los tamanos del conjunto de datos
+        sizeData = len(self.dataSet)/self.n_splitter
+        residue = len(self.dataSet)%self.n_splitter
+
+        index = 0
+        for i in range(self.n_splitter):
+
+            name = "splitter_%d.csv"+(i+1)
+            matrixData = []#almacenarara la informacion de los datos
+            #generamos la matriz de datos
+            for j in range(sizeData):
+                rowData = []
+                #agregamos el dato al conjunto de matriz
+                for key in self.keys:
+                    rowData.append(self.dataSet[key][self.listIndex[index]])#agregamos un elemento en la posicion index
+                index+=1
+                matrixData.append(rowData)
+
+            if i == self.n_splitter-1:#debo agregar los elementos faltantes
+                for j in range(len(self.dataSet)-residue, len(self.dataSet)):
+                    rowData = []
+                    #agregamos el dato al conjunto de matriz
+                    for key in self.keys:
+                        rowData.append(self.dataSet[key][self.listIndex[index]])#agregamos un elemento en la posicion index
+                    index+=1
+                    matrixData.append(rowData)
+
+            #generamos el dataFrame a partir de la matriz creada
+            dataFrame = pd.DataFrame(matrixData, columns=self.keys)
+            dataFrame.to_csv(self.pathExport+name, index=False)
