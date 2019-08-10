@@ -43,6 +43,8 @@ parser.add_argument("-p", "--pathResult", help="full path for save results", req
 parser.add_argument("-r", "--response", help="Name response in dataset", required=True)
 parser.add_argument("-k", "--kind", type=int, help="Kind of dataset: 1. Classification 2. Regression", required=True)
 parser.add_argument("-t", "--threshold", type=int, help="threshold for umbalanced class", required=True)
+parser.add_argument("-s", "--size", type=int, help="size of sample", required=True)
+
 args = parser.parse_args()
 
 #hacemos las validaciones asociadas a si existe el directorio y el set de datos
@@ -59,9 +61,11 @@ if (processData.validatePath(args.pathResult) == 0):
         featureClass = args.response
         kindDataSet = int(args.kind)
         threshold = int(args.threshold)
+        sizeEval = int(args.size)
 
         #instancia al objeto
-        callServiceObject = callService.serviceClustering(dataSet, pathResponse, optionNormalize, featureClass, kindDataSet, threshold)
+        #esta funcion deberia ser "recursiva, por eso bastaria con pasarle este tamano"
+        callServiceObject = callService.serviceClustering(dataSet, pathResponse, optionNormalize, featureClass, kindDataSet, threshold, sizeEval)
         response = callServiceObject.execProcess()
         print response
     else:

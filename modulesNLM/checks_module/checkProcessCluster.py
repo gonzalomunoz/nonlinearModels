@@ -70,13 +70,13 @@ class checkProcess(object):
         return indexCandidato
 
     #funcion que permite evaluar la cantidad de ejemplos por division
-    def checkSplitter(self, member1, member2, threshold):
-        total = member1+member2
+    def checkSplitter(self, member1, member2, threshold, sizeEval):
+        total = sizeEval
 
         member1= float(member1)/float(total)*100
         member2= float(member2)/float(total)*100
-        print member1
-        print member2
+        print "member1: ", member1
+        print "member2: ", member2
         if member1<threshold or member2< threshold:#no cumple con criterio de tamano
             return -1
         else:#si cumple con criterio de tamano
