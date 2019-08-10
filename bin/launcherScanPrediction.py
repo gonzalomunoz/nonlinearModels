@@ -60,6 +60,7 @@ from modulesNLM.utils import encodingFeatures
 
 #para evaluar la performance
 from modulesNLM.supervised_learning_predicction import performanceData
+from modulesNLM.utils import processParamsDict
 
 #funcion que permite calcular los estadisticos de un atributo en el set de datos, asociados a las medidas de desempeno
 def estimatedStatisticPerformance(summaryObject, attribute):
@@ -72,6 +73,8 @@ def estimatedStatisticPerformance(summaryObject, attribute):
 parser = argparse.ArgumentParser()
 parser.add_argument("-d", "--dataSet", help="full path and name to acces dataSet input process", required=True)
 parser.add_argument("-p", "--pathResult", help="full path for save results", required=True)
+parser.add_argument("-m", "--performance", help="performance selected model", required=True)
+
 args = parser.parse_args()
 
 #hacemos las validaciones asociadas a si existe el directorio y el set de datos
@@ -140,12 +143,14 @@ if (processData.validatePath(args.pathResult) == 0):
                         kendalltauValue=0
 
                     params = "loss:%s-n_estimators:%d" % (loss, n_estimators)
-                    row = ["AdaBoostClassifier", params, AdaBoostObject.r_score, pearsonValue, spearmanValue, kendalltauValue]
+                    row = ["AdaBoostRegressor", params, AdaBoostObject.r_score, pearsonValue, spearmanValue, kendalltauValue]
                     matrixResponse.append(row)
                     iteracionesCorrectas+=1
                 except:
                     iteracionesIncorrectas+=1
                     pass
+                break
+            break
 
         #Baggin
         for bootstrap in [True, False]:
@@ -175,6 +180,8 @@ if (processData.validatePath(args.pathResult) == 0):
                 except:
                     iteracionesIncorrectas+=1
                     pass
+                break
+            break
 
 
         #DecisionTree
@@ -204,6 +211,8 @@ if (processData.validatePath(args.pathResult) == 0):
                 except:
                     iteracionesIncorrectas+=1
                     pass
+                break
+            break
 
         #gradiente
         for loss in ['ls', 'lad', 'huber', 'quantile']:
@@ -235,6 +244,11 @@ if (processData.validatePath(args.pathResult) == 0):
                             except:
                                 iteracionesIncorrectas+=1
                                 pass
+                            break
+                        break
+                    break
+                break
+            break
 
         #knn
         for n_neighbors in range(1,11):
@@ -259,12 +273,16 @@ if (processData.validatePath(args.pathResult) == 0):
                                 kendalltauValue=0
 
                             params = "n_neighbors:%d-algorithm:%s-metric:%s-weights:%s" % (n_neighbors, algorithm, metric, weights)
-                            row = ["KNeighborsClassifier", params, knnObect.r_score, pearsonValue, spearmanValue, kendalltauValue]
+                            row = ["KNeighborsRegressor", params, knnObect.r_score, pearsonValue, spearmanValue, kendalltauValue]
                             matrixResponse.append(row)
                             iteracionesCorrectas+=1
                         except:
                             iteracionesIncorrectas+=1
                             pass
+                        break
+                    break
+                break
+            break
 
         '''
         #MLP
@@ -326,6 +344,10 @@ if (processData.validatePath(args.pathResult) == 0):
                         except:
                             iteracionesIncorrectas+=1
                             pass
+                        break
+                    break
+                break
+            break
 
         #SVC
         for kernel in ['rbf', 'linear', 'poly', 'sigmoid', 'precomputed']:
@@ -355,6 +377,9 @@ if (processData.validatePath(args.pathResult) == 0):
                     except:
                         iteracionesIncorrectas+=1
                         pass
+                    break
+                break
+            break
 
         #RF
         for n_estimators in [10,50,100,200,500,1000,1500,2000]:
@@ -386,6 +411,11 @@ if (processData.validatePath(args.pathResult) == 0):
                             except:
                                 iteracionesIncorrectas+=1
                                 pass
+                            break
+                        break
+                    break
+                break
+            break
 
         #generamos el export de la matriz convirtiendo a data frame
         dataFrame = pd.DataFrame(matrixResponse, columns=header)
@@ -423,6 +453,13 @@ if (processData.validatePath(args.pathResult) == 0):
         dictionary.update({"ejecucion": finishTime})
         dictionary.update({"iteracionesCorrectas": iteracionesCorrectas})
         dictionary.update({"iteracionesIncorrectas": iteracionesIncorrectas})
+
+        dictionary.update({"performanceSelected": args.performance})
+
+        #agrego la informacion de los mejores modelos para cada medida de desempeno
+        processModels = processParamsDict.processParams(pathResponse, ['R_Score', 'Pearson', 'Spearman', 'Kendalltau'])
+        processModels.getBestModels()
+        dictionary.update({"modelSelecetd":processModels.listModels})
 
         nameFileExport = "%ssummaryProcess.json" % (pathResponse)
         with open(nameFileExport, 'w') as fp:
