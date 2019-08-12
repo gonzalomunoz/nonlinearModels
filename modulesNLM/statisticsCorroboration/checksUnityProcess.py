@@ -93,14 +93,14 @@ class checkRandomsPartitions(object):
             maxSil = max(siluetasIndex)
 
             if maxCal > self.performanceC:
-                dataFrameR[keyC] = [1]#indica que no se cumple la hipotesis
+                dataFrameR[keyC] = [0]#indica que no se cumple la hipotesis
             else:
-                dataFrameR[keyC] = [0]#indica que se cumple la hipotesis
+                dataFrameR[keyC] = [1]#indica que se cumple la hipotesis
 
             if maxSil > self.performanceS:
-                dataFrameR[keyS] = [1]#indica que no se cumple la hipotesis
+                dataFrameR[keyS] = [0]#indica que no se cumple la hipotesis
             else:
-                dataFrameR[keyS] = [0]#indica que se cumple la hipotesis
+                dataFrameR[keyS] = [1]#indica que se cumple la hipotesis
 
         dataFrame.to_csv(self.pathOutput+"performanceRandomSplitter.csv", index=False)
         dataFrameR.to_csv(self.pathOutput+"hipotesisTestCheck.csv", index=False)

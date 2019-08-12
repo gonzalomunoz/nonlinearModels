@@ -1,6 +1,6 @@
 import sys
 import pandas as pd
-from modulesNLM.statisticsCorroboration import checksUnityProcess
+from modulesNLM.statisticsCorroboration import checksUnityProcess, checkMembersInPartitions
 from modulesNLM.utils import transformDataClass
 from modulesNLM.utils import transformFrequence
 from modulesNLM.utils import ScaleNormalScore
@@ -46,3 +46,6 @@ with open(jsonResponse) as json_file:
 
 checkNumberK = checksUnityProcess.checkRandomsPartitions(numberPartitions, pathOutput, data, calinskiScore, siluetasScore)
 checkNumberK.checkRandomElement()
+
+checkMembers = checkMembersInPartitions.checkMembersInPartitions(dataJSON['partitions_length'], pathOutput, data, calinskiScore, siluetasScore)
+checkMembers.generateRandomPartitions()

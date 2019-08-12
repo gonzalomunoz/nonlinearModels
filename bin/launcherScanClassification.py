@@ -130,10 +130,10 @@ if (processData.validatePath(args.pathResult) == 0):
             for n_estimators in [10,50,100,200,500,1000,1500,2000]:
                 try:
                     print "Excec AdaBoost with %s - %d" % (algorithm, n_estimators)
-                    AdaBoostObject = AdaBoost.AdaBoost(data, target, n_estimators, algorithm, 10)
+                    AdaBoostObject = AdaBoost.AdaBoost(data, target, n_estimators, algorithm, 5)
                     AdaBoostObject.trainingMethod(kindDataSet)
                     params = "Algorithm:%s-n_estimators:%d" % (algorithm, n_estimators)
-                    row = ["AdaBoostClassifier", params, "CV-10", AdaBoostObject.performanceData.scoreData[3], AdaBoostObject.performanceData.scoreData[4], AdaBoostObject.performanceData.scoreData[5], AdaBoostObject.performanceData.scoreData[6]]
+                    row = ["AdaBoostClassifier", params, "CV-5", AdaBoostObject.performanceData.scoreData[3], AdaBoostObject.performanceData.scoreData[4], AdaBoostObject.performanceData.scoreData[5], AdaBoostObject.performanceData.scoreData[6]]
                     matrixResponse.append(row)
                     iteracionesCorrectas+=1
                 except:
@@ -147,10 +147,10 @@ if (processData.validatePath(args.pathResult) == 0):
             for n_estimators in [10,50,100,200,500,1000,1500,2000]:
                 try:
                     print "Excec Bagging with %s - %d" % (bootstrap, n_estimators)
-                    bagginObject = Baggin.Baggin(data,target,n_estimators, bootstrap,10)
+                    bagginObject = Baggin.Baggin(data,target,n_estimators, bootstrap,5)
                     bagginObject.trainingMethod(kindDataSet)
                     params = "bootstrap:%s-n_estimators:%d" % (str(bootstrap), n_estimators)
-                    row = ["Bagging", params, "CV-10", bagginObject.performanceData.scoreData[3], bagginObject.performanceData.scoreData[4], bagginObject.performanceData.scoreData[5], bagginObject.performanceData.scoreData[6]]
+                    row = ["Bagging", params, "CV-5", bagginObject.performanceData.scoreData[3], bagginObject.performanceData.scoreData[4], bagginObject.performanceData.scoreData[5], bagginObject.performanceData.scoreData[6]]
                     matrixResponse.append(row)
                     iteracionesCorrectas+=1
                 except:
@@ -161,11 +161,11 @@ if (processData.validatePath(args.pathResult) == 0):
 
         #BernoulliNB
         try:
-            bernoulliNB = BernoulliNB.Bernoulli(data, target, 10)
+            bernoulliNB = BernoulliNB.Bernoulli(data, target, 5)
             bernoulliNB.trainingMethod(kindDataSet)
             print "Excec Bernoulli Default Params"
             params = "Default"
-            row = ["BernoulliNB", params, "CV-10", bernoulliNB.performanceData.scoreData[3], bernoulliNB.performanceData.scoreData[4], bernoulliNB.performanceData.scoreData[5], bernoulliNB.performanceData.scoreData[6]]
+            row = ["BernoulliNB", params, "CV-5", bernoulliNB.performanceData.scoreData[3], bernoulliNB.performanceData.scoreData[4], bernoulliNB.performanceData.scoreData[5], bernoulliNB.performanceData.scoreData[6]]
             matrixResponse.append(row)
             iteracionesCorrectas+=1
         except:
@@ -177,10 +177,10 @@ if (processData.validatePath(args.pathResult) == 0):
             for splitter in ['best', 'random']:
                 try:
                     print "Excec DecisionTree with %s - %s" % (criterion, splitter)
-                    decisionTreeObject = DecisionTree.DecisionTree(data, target, criterion, splitter,10)
+                    decisionTreeObject = DecisionTree.DecisionTree(data, target, criterion, splitter,5)
                     decisionTreeObject.trainingMethod(kindDataSet)
                     params = "criterion:%s-splitter:%s" % (criterion, splitter)
-                    row = ["DecisionTree", params, "CV-10", decisionTreeObject.performanceData.scoreData[3], decisionTreeObject.performanceData.scoreData[4], decisionTreeObject.performanceData.scoreData[5], decisionTreeObject.performanceData.scoreData[6]]
+                    row = ["DecisionTree", params, "CV-5", decisionTreeObject.performanceData.scoreData[3], decisionTreeObject.performanceData.scoreData[4], decisionTreeObject.performanceData.scoreData[5], decisionTreeObject.performanceData.scoreData[6]]
                     matrixResponse.append(row)
                     iteracionesCorrectas+=1
                 except:
@@ -191,12 +191,12 @@ if (processData.validatePath(args.pathResult) == 0):
 
         try:
             #GaussianNB
-            gaussianObject = GaussianNB.Gaussian(data, target, 10)
+            gaussianObject = GaussianNB.Gaussian(data, target, 5)
             gaussianObject.trainingMethod(kindDataSet)
             print "Excec GaussianNB Default Params"
             params = "Default"
 
-            row = ["GaussianNB", params, "CV-10", gaussianObject.performanceData.scoreData[3], gaussianObject.performanceData.scoreData[4], gaussianObject.performanceData.scoreData[5], gaussianObject.performanceData.scoreData[6]]
+            row = ["GaussianNB", params, "CV-5", gaussianObject.performanceData.scoreData[3], gaussianObject.performanceData.scoreData[4], gaussianObject.performanceData.scoreData[5], gaussianObject.performanceData.scoreData[6]]
             matrixResponse.append(row)
         except:
             pass
@@ -206,10 +206,10 @@ if (processData.validatePath(args.pathResult) == 0):
             for n_estimators in [10,50,100,200,500,1000,1500,2000]:
                 try:
                     print "Excec GradientBoostingClassifier with %s - %d - %d - %d" % (loss, n_estimators, 2, 1)
-                    gradientObject = Gradient.Gradient(data,target,n_estimators, loss, min_samples_split, min_samples_leaf, 10)
+                    gradientObject = Gradient.Gradient(data,target,n_estimators, loss, min_samples_split, min_samples_leaf, 5)
                     gradientObject.trainingMethod(kindDataSet)
                     params = "n_estimators:%d-loss:%s-min_samples_split:%d-min_samples_leaf:%d" % (n_estimators, loss, min_samples_split, min_samples_leaf)
-                    row = ["GradientBoostingClassifier", params, "CV-10", gradientObject.performanceData.scoreData[3], gradientObject.performanceData.scoreData[4], gradientObject.performanceData.scoreData[5], gradientObject.performanceData.scoreData[6]]
+                    row = ["GradientBoostingClassifier", params, "CV-5", gradientObject.performanceData.scoreData[3], gradientObject.performanceData.scoreData[4], gradientObject.performanceData.scoreData[5], gradientObject.performanceData.scoreData[6]]
                     matrixResponse.append(row)
                     iteracionesCorrectas+=1
                 except:
@@ -225,11 +225,11 @@ if (processData.validatePath(args.pathResult) == 0):
                     for weights in ['uniform', 'distance']:
                         try:
                             print "Excec KNeighborsClassifier with %d - %s - %s - %s" % (n_neighbors, algorithm, metric, weights)
-                            knnObect = knn.knn(data, target, n_neighbors, algorithm, metric,  weights,10)
+                            knnObect = knn.knn(data, target, n_neighbors, algorithm, metric,  weights,5)
                             knnObect.trainingMethod(kindDataSet)
 
                             params = "n_neighbors:%d-algorithm:%s-metric:%s-weights:%s" % (n_neighbors, algorithm, metric, weights)
-                            row = ["KNeighborsClassifier", params, "CV-10", knnObect.performanceData.scoreData[3], knnObect.performanceData.scoreData[4], knnObect.performanceData.scoreData[5], knnObect.performanceData.scoreData[6]]
+                            row = ["KNeighborsClassifier", params, "CV-5", knnObect.performanceData.scoreData[3], knnObect.performanceData.scoreData[4], knnObect.performanceData.scoreData[5], knnObect.performanceData.scoreData[6]]
                             matrixResponse.append(row)
                             iteracionesCorrectas+=1
                         except:
@@ -246,10 +246,10 @@ if (processData.validatePath(args.pathResult) == 0):
                 for degree in range(3, 15):
                     try:
                         print "Excec NuSVM"
-                        nuSVM = NuSVM.NuSVM(data, target, kernel, nu, degree, 0.01, 10)
+                        nuSVM = NuSVM.NuSVM(data, target, kernel, nu, degree, 0.01, 5)
                         nuSVM.trainingMethod(kindDataSet)
                         params = "kernel:%s-nu:%f-degree:%d" % (kernel, nu, degree)
-                        row = ["NuSVM", params, "CV-10", nuSVM.performanceData.scoreData[3], nuSVM.performanceData.scoreData[4], nuSVM.performanceData.scoreData[5], nuSVM.performanceData.scoreData[6]]
+                        row = ["NuSVM", params, "CV-5", nuSVM.performanceData.scoreData[3], nuSVM.performanceData.scoreData[4], nuSVM.performanceData.scoreData[5], nuSVM.performanceData.scoreData[6]]
                         matrixResponse.append(row)
                         iteracionesCorrectas+=1
                     except:
@@ -265,10 +265,10 @@ if (processData.validatePath(args.pathResult) == 0):
                 for degree in range(3, 15):
                     try:
                         print "Excec SVM"
-                        svm = SVM.SVM(data, target, kernel, C_value, degree, 0.01, 10)
+                        svm = SVM.SVM(data, target, kernel, C_value, degree, 0.01, 5)
                         svm.trainingMethod(kindDataSet)
                         params = "kernel:%s-c:%f-degree:%d" % (kernel, C_value, degree)
-                        row = ["SVM", params, "CV-10", svm.performanceData.scoreData[3], svm.performanceData.scoreData[4], svm.performanceData.scoreData[5], svm.performanceData.scoreData[6]]
+                        row = ["SVM", params, "CV-5", svm.performanceData.scoreData[3], svm.performanceData.scoreData[4], svm.performanceData.scoreData[5], svm.performanceData.scoreData[6]]
                         matrixResponse.append(row)
                         iteracionesCorrectas+=1
                     except:
@@ -284,11 +284,11 @@ if (processData.validatePath(args.pathResult) == 0):
                 for bootstrap in [True, False]:
                     try:
                         print "Excec RF"
-                        rf = RandomForest.RandomForest(data, target, n_estimators, criterion, 2, 1, bootstrap, 10)
+                        rf = RandomForest.RandomForest(data, target, n_estimators, criterion, 2, 1, bootstrap, 5)
                         rf.trainingMethod(kindDataSet)
 
                         params = "n_estimators:%d-criterion:%s-min_samples_split:%d-min_samples_leaf:%d-bootstrap:%s" % (n_estimators, criterion, min_samples_split, min_samples_leaf, str(bootstrap))
-                        row = ["RandomForestClassifier", params, "CV-10", rf.performanceData.scoreData[3], rf.performanceData.scoreData[4], rf.performanceData.scoreData[5], rf.performanceData.scoreData[6]]
+                        row = ["RandomForestClassifier", params, "CV-5", rf.performanceData.scoreData[3], rf.performanceData.scoreData[4], rf.performanceData.scoreData[5], rf.performanceData.scoreData[6]]
                         matrixResponse.append(row)
                         iteracionesCorrectas+=1
                     except:
@@ -336,7 +336,7 @@ if (processData.validatePath(args.pathResult) == 0):
         dictionary.update({"iteracionesCorrectas": iteracionesCorrectas})
         dictionary.update({"iteracionesIncorrectas": iteracionesIncorrectas})
         dictionary.update({"performanceSelected": args.performance})
-        
+
         #agrego la informacion de los mejores modelos para cada medida de desempeno
         processModels = processParamsDict.processParams(pathResponse, ['Accuracy', 'Recall', 'Precision', 'F1'])
         processModels.getBestModels()
