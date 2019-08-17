@@ -95,15 +95,15 @@ class checkNonLinearClass(object):
         for kernel in ['rbf', 'linear', 'poly', 'sigmoid', 'precomputed']:
             for nu in [0.01, 0.05, 0.1, 0.5]:
                 for degree in range(3, 15):
-                    #try:
-                    print "Excec NuSVM ",
-                    params = "kernel:%s-nu:%f-degree:%d" % (kernel, nu, degree)
-                    print params
-                    nuSVM = NuSVM.NuSVM(self.data, self.target, kernel, nu, degree, 0.01, 10)
-                    nuSVM.trainingMethod(self.kindDataSet)
-                    AccuracyList.append(nuSVM.performanceData.scoreData[3])
-                    #except:
-                    #    pass
+                    try:
+                        print "Excec NuSVM ",
+                        params = "kernel:%s-nu:%f-degree:%d" % (kernel, nu, degree)
+                        print params
+                        nuSVM = NuSVM.NuSVM(self.data, self.target, kernel, nu, degree, 0.01, 10)
+                        nuSVM.trainingMethod(self.kindDataSet)
+                        AccuracyList.append(nuSVM.performanceData.scoreData[3])
+                    except:
+                        pass
                     break
                 break
             break
@@ -127,7 +127,6 @@ class checkNonLinearClass(object):
             break
 
         try:
-
             print max(AccuracyList)
             if max(AccuracyList)<=self.threshold:
                 return 0#no lineal

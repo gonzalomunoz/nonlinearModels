@@ -52,9 +52,4 @@ else:
     checkMethod.prepareDataSet()#preparamos el conjunto de datos
     response = checkMethod.applyLinearRegression()#aplicamos la regresion lineal
 
-if response == 0:
-    print "Non Linear"
-elif response == 1:
-    print "Linear"
-else:
-    print "ERROR"
+return response
