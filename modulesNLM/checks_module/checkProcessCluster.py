@@ -101,6 +101,7 @@ class checkProcess(object):
                 arrayProportion.append(count)
 
             response=0
+            print arrayProportion
             #evaluamos si existe desbalance
             for proportion in arrayProportion:
                 if proportion <= threshold:

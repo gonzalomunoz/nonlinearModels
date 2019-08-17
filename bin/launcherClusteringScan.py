@@ -42,7 +42,7 @@ parser.add_argument("-o", "--option", type=int, help="Option to Normalize data s
 parser.add_argument("-p", "--pathResult", help="full path for save results", required=True)
 parser.add_argument("-r", "--response", help="Name response in dataset", required=True)
 parser.add_argument("-k", "--kind", type=int, help="Kind of dataset: 1. Classification 2. Regression", required=True)
-parser.add_argument("-t", "--threshold", type=int, help="threshold for umbalanced class", required=True)
+parser.add_argument("-t", "--threshold", type=float, help="threshold for umbalanced class", required=True)
 parser.add_argument("-s", "--size", type=int, help="size of sample", required=True)
 
 args = parser.parse_args()
