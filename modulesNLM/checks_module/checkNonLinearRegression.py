@@ -82,7 +82,7 @@ class checkNonLinearRegression(object):
             self.reg.fit(self.data, self.dataResponse)
 
             score = self.reg.score(self.data, self.dataResponse)
-
+            print "Performance score: ", score
             if score<= self.threshold:
                 return 0#no lineal
             else:
