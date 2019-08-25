@@ -147,24 +147,24 @@ if (processData.validatePath(args.pathResult) == 0):
         #AdaBoost
         for algorithm in ['SAMME', 'SAMME.R']:
             for n_estimators in [10,50,100,200,500,1000,1500,2000]:
-                try:
-                    print "Excec AdaBoost with %s - %d" % (algorithm, n_estimators)
-                    AdaBoostObject = AdaBoost.AdaBoost(dataSetTraining, classTraining, n_estimators, algorithm, kValueData)
-                    AdaBoostObject.trainingMethod(kindDataSet)
-                    params = "Algorithm:%s-n_estimators:%d" % (algorithm, n_estimators)
-                    row = ["AdaBoostClassifier", params, validation, AdaBoostObject.performanceData.scoreData[3], AdaBoostObject.performanceData.scoreData[4], AdaBoostObject.performanceData.scoreData[5], AdaBoostObject.performanceData.scoreData[6]]
-                    matrixResponse.append(row)
-                    iteracionesCorrectas+=1
-                except:
-                    iteracionesIncorrectas+=1
-                    pass                
+                #try:
+                print "Excec AdaBoost with %s - %d" % (algorithm, n_estimators)
+                AdaBoostObject = AdaBoost.AdaBoost(data, target, n_estimators, algorithm, kValueData)
+                AdaBoostObject.trainingMethod(kindDataSet)
+                params = "Algorithm:%s-n_estimators:%d" % (algorithm, n_estimators)
+                row = ["AdaBoostClassifier", params, validation, AdaBoostObject.performanceData.scoreData[3], AdaBoostObject.performanceData.scoreData[4], AdaBoostObject.performanceData.scoreData[5], AdaBoostObject.performanceData.scoreData[6]]
+                matrixResponse.append(row)
+                iteracionesCorrectas+=1
+                #except:
+                #    iteracionesIncorrectas+=1
+                #    pass
 
         #Baggin
         for bootstrap in [True, False]:
             for n_estimators in [10,50,100,200,500,1000,1500,2000]:
                 try:
                     print "Excec Bagging with %s - %d" % (bootstrap, n_estimators)
-                    bagginObject = Baggin.Baggin(dataSetTraining,classTraining,n_estimators, bootstrap,kValueData)
+                    bagginObject = Baggin.Baggin(data,target,n_estimators, bootstrap,kValueData)
                     bagginObject.trainingMethod(kindDataSet)
                     params = "bootstrap:%s-n_estimators:%d" % (str(bootstrap), n_estimators)
                     row = ["Bagging", params, validation, bagginObject.performanceData.scoreData[3], bagginObject.performanceData.scoreData[4], bagginObject.performanceData.scoreData[5], bagginObject.performanceData.scoreData[6]]
@@ -177,7 +177,7 @@ if (processData.validatePath(args.pathResult) == 0):
 
         #BernoulliNB
         try:
-            bernoulliNB = BernoulliNB.Bernoulli(dataSetTraining, classTraining, kValueData)
+            bernoulliNB = BernoulliNB.Bernoulli(data, target, kValueData)
             bernoulliNB.trainingMethod(kindDataSet)
             print "Excec Bernoulli Default Params"
             params = "Default"
@@ -194,7 +194,7 @@ if (processData.validatePath(args.pathResult) == 0):
             for splitter in ['best', 'random']:
                 try:
                     print "Excec DecisionTree with %s - %s" % (criterion, splitter)
-                    decisionTreeObject = DecisionTree.DecisionTree(dataSetTraining, classTraining, criterion, splitter,kValueData)
+                    decisionTreeObject = DecisionTree.DecisionTree(data, target, criterion, splitter,kValueData)
                     decisionTreeObject.trainingMethod(kindDataSet)
                     params = "criterion:%s-splitter:%s" % (criterion, splitter)
                     row = ["DecisionTree", params, validation, decisionTreeObject.performanceData.scoreData[3], decisionTreeObject.performanceData.scoreData[4], decisionTreeObject.performanceData.scoreData[5], decisionTreeObject.performanceData.scoreData[6]]
@@ -207,7 +207,7 @@ if (processData.validatePath(args.pathResult) == 0):
 
         try:
             #GaussianNB
-            gaussianObject = GaussianNB.Gaussian(dataSetTraining, classTraining, kValueData)
+            gaussianObject = GaussianNB.Gaussian(data, target, kValueData)
             gaussianObject.trainingMethod(kindDataSet)
             print "Excec GaussianNB Default Params"
             params = "Default"
@@ -222,7 +222,7 @@ if (processData.validatePath(args.pathResult) == 0):
             for n_estimators in [10,50,100,200,500,1000,1500,2000]:
                 try:
                     print "Excec GradientBoostingClassifier with %s - %d - %d - %d" % (loss, n_estimators, 2, 1)
-                    gradientObject = Gradient.Gradient(dataSetTraining,classTraining,n_estimators, loss, min_samples_split, min_samples_leaf, kValueData)
+                    gradientObject = Gradient.Gradient(data,target,n_estimators, loss, min_samples_split, min_samples_leaf, kValueData)
                     gradientObject.trainingMethod(kindDataSet)
                     params = "n_estimators:%d-loss:%s-min_samples_split:%d-min_samples_leaf:%d" % (n_estimators, loss, min_samples_split, min_samples_leaf)
                     row = ["GradientBoostingClassifier", params, validation, gradientObject.performanceData.scoreData[3], gradientObject.performanceData.scoreData[4], gradientObject.performanceData.scoreData[5], gradientObject.performanceData.scoreData[6]]
@@ -240,7 +240,7 @@ if (processData.validatePath(args.pathResult) == 0):
                     for weights in ['uniform', 'distance']:
                         try:
                             print "Excec KNeighborsClassifier with %d - %s - %s - %s" % (n_neighbors, algorithm, metric, weights)
-                            knnObect = knn.knn(dataSetTraining, classTraining, n_neighbors, algorithm, metric,  weights,kValueData)
+                            knnObect = knn.knn(data, target, n_neighbors, algorithm, metric,  weights,kValueData)
                             knnObect.trainingMethod(kindDataSet)
 
                             params = "n_neighbors:%d-algorithm:%s-metric:%s-weights:%s" % (n_neighbors, algorithm, metric, weights)
@@ -258,7 +258,7 @@ if (processData.validatePath(args.pathResult) == 0):
                 for degree in range(3, 15):
                     try:
                         print "Excec NuSVM"
-                        nuSVM = NuSVM.NuSVM(dataSetTraining, classTraining, kernel, nu, degree, 0.01, kValueData)
+                        nuSVM = NuSVM.NuSVM(data, target, kernel, nu, degree, 0.01, kValueData)
                         nuSVM.trainingMethod(kindDataSet)
                         params = "kernel:%s-nu:%f-degree:%d" % (kernel, nu, degree)
                         row = ["NuSVM", params, validation, nuSVM.performanceData.scoreData[3], nuSVM.performanceData.scoreData[4], nuSVM.performanceData.scoreData[5], nuSVM.performanceData.scoreData[6]]
@@ -275,7 +275,7 @@ if (processData.validatePath(args.pathResult) == 0):
                 for degree in range(3, 15):
                     try:
                         print "Excec SVM"
-                        svm = SVM.SVM(dataSetTraining, classTraining, kernel, C_value, degree, 0.01, kValueData)
+                        svm = SVM.SVM(data, target, kernel, C_value, degree, 0.01, kValueData)
                         svm.trainingMethod(kindDataSet)
                         params = "kernel:%s-c:%f-degree:%d" % (kernel, C_value, degree)
                         row = ["SVM", params, validation, svm.performanceData.scoreData[3], svm.performanceData.scoreData[4], svm.performanceData.scoreData[5], svm.performanceData.scoreData[6]]
@@ -292,7 +292,7 @@ if (processData.validatePath(args.pathResult) == 0):
                 for bootstrap in [True, False]:
                     try:
                         print "Excec RF"
-                        rf = RandomForest.RandomForest(dataSetTraining, classTraining, n_estimators, criterion, 2, 1, bootstrap, kValueData)
+                        rf = RandomForest.RandomForest(data, target, n_estimators, criterion, 2, 1, bootstrap, kValueData)
                         rf.trainingMethod(kindDataSet)
 
                         params = "n_estimators:%d-criterion:%s-min_samples_split:%d-min_samples_leaf:%d-bootstrap:%s" % (n_estimators, criterion, 2, 1, str(bootstrap))
@@ -304,54 +304,56 @@ if (processData.validatePath(args.pathResult) == 0):
                         iteracionesIncorrectas+=1
                         pass
 
-        #generamos el export de la matriz convirtiendo a data frame
-        dataFrame = pd.DataFrame(matrixResponse, columns=header)
+        try:
+            #generamos el export de la matriz convirtiendo a data frame
+            dataFrame = pd.DataFrame(matrixResponse, columns=header)
 
-        #generamos el nombre del archivo
-        nameFileExport = "%ssummaryProcessJob.csv" % (pathResponse)
-        dataFrame.to_csv(nameFileExport, index=False)
+            #generamos el nombre del archivo
+            nameFileExport = "%ssummaryProcessJob.csv" % (pathResponse)
+            dataFrame.to_csv(nameFileExport, index=False)
 
-        #estimamos los estadisticos resumenes para cada columna en el header
-        #instanciamos el object
-        statisticObject = summaryStatistic.createStatisticSummary(nameFileExport)
-        matrixSummaryStatistic = []
+            #estimamos los estadisticos resumenes para cada columna en el header
+            #instanciamos el object
+            statisticObject = summaryStatistic.createStatisticSummary(nameFileExport)
+            matrixSummaryStatistic = []
 
-        #"Accuracy", "Recall", "Precision", "Neg_log_loss", "F1", "FBeta"
-        matrixSummaryStatistic.append(estimatedStatisticPerformance(statisticObject, 'Accuracy'))
-        matrixSummaryStatistic.append(estimatedStatisticPerformance(statisticObject, 'Recall'))
-        matrixSummaryStatistic.append(estimatedStatisticPerformance(statisticObject, 'Precision'))
-        matrixSummaryStatistic.append(estimatedStatisticPerformance(statisticObject, 'F1'))
+            #"Accuracy", "Recall", "Precision", "Neg_log_loss", "F1", "FBeta"
+            matrixSummaryStatistic.append(estimatedStatisticPerformance(statisticObject, 'Accuracy'))
+            matrixSummaryStatistic.append(estimatedStatisticPerformance(statisticObject, 'Recall'))
+            matrixSummaryStatistic.append(estimatedStatisticPerformance(statisticObject, 'Precision'))
+            matrixSummaryStatistic.append(estimatedStatisticPerformance(statisticObject, 'F1'))
 
-        #generamos el nombre del archivo
-        dataFrame = pd.DataFrame(matrixSummaryStatistic, columns=['Performance','Mean', 'STD', 'Variance', 'MAX', 'MIN'])
-        nameFileExport2 = "%sstatisticPerformance.csv" % (pathResponse)
-        dataFrame.to_csv(nameFileExport2, index=False)
+            #generamos el nombre del archivo
+            dataFrame = pd.DataFrame(matrixSummaryStatistic, columns=['Performance','Mean', 'STD', 'Variance', 'MAX', 'MIN'])
+            nameFileExport2 = "%sstatisticPerformance.csv" % (pathResponse)
+            dataFrame.to_csv(nameFileExport2, index=False)
 
-        #generamos el proceso estadisitico
-        summaryObject = summaryScanProcess.summaryProcessClusteringScan(nameFileExport, pathResponse, ['Accuracy', 'Recall', 'Precision', 'F1'])
-        summaryObject.createHistogram()
-        summaryObject.createRankingFile()
+            #generamos el proceso estadisitico
+            summaryObject = summaryScanProcess.summaryProcessClusteringScan(nameFileExport, pathResponse, ['Accuracy', 'Recall', 'Precision', 'F1'])
+            summaryObject.createHistogram()
+            summaryObject.createRankingFile()
 
-        finishTime = time.time() - start_time
-        termino = datetime.datetime.now()
+            finishTime = time.time() - start_time
+            termino = datetime.datetime.now()
 
-        dictionary = {}
-        dictionary.update({"inicio": str(inicio)})
-        dictionary.update({"termino": str(termino)})
-        dictionary.update({"ejecucion": finishTime})
-        dictionary.update({"iteracionesCorrectas": iteracionesCorrectas})
-        dictionary.update({"iteracionesIncorrectas": iteracionesIncorrectas})
-        dictionary.update({"performanceSelected": args.performance})
+            dictionary = {}
+            dictionary.update({"inicio": str(inicio)})
+            dictionary.update({"termino": str(termino)})
+            dictionary.update({"ejecucion": finishTime})
+            dictionary.update({"iteracionesCorrectas": iteracionesCorrectas})
+            dictionary.update({"iteracionesIncorrectas": iteracionesIncorrectas})
+            dictionary.update({"performanceSelected": args.performance})
 
-        #agrego la informacion de los mejores modelos para cada medida de desempeno
-        processModels = processParamsDict.processParams(pathResponse, ['Accuracy', 'Recall', 'Precision', 'F1'])
-        processModels.getBestModels()
-        dictionary.update({"modelSelecetd":processModels.listModels})
+            #agrego la informacion de los mejores modelos para cada medida de desempeno
+            processModels = processParamsDict.processParams(pathResponse, ['Accuracy', 'Recall', 'Precision', 'F1'])
+            processModels.getBestModels()
+            dictionary.update({"modelSelecetd":processModels.listModels})
 
-        nameFileExport = "%ssummaryProcess.json" % (pathResponse)
-        with open(nameFileExport, 'w') as fp:
-            json.dump(dictionary, fp)
-
+            nameFileExport = "%ssummaryProcess.json" % (pathResponse)
+            with open(nameFileExport, 'w') as fp:
+                json.dump(dictionary, fp)
+        except:
+            print "Error during exec program"
     else:
         print "Data set input not exist, please check the input for name file data set"
 else:
