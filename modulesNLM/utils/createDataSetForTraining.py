@@ -37,7 +37,7 @@ class createDataSet(object):
         arrayResponse = []
 
         for i in range(init, stop):
-            arrayResponse.append(self.indexArray[i])
+            arrayResponse.append(self.classResponse[self.indexArray[i]])
 
         return arrayResponse
 
