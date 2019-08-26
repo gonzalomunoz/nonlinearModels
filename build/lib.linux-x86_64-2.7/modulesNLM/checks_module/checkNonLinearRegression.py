@@ -77,16 +77,12 @@ class checkNonLinearRegression(object):
     #metodo que permite hacer el entrenamiento del modelo...
     def applyLinearRegression(self):
 
-        try:
-            self.reg = linear_model.LinearRegression()
-            self.reg.fit(self.data, self.dataResponse)
+        self.reg = linear_model.LinearRegression()
+        self.reg.fit(self.data, self.dataResponse)
 
-            score = self.reg.score(self.data, self.dataResponse)
-            print "Performance score: ", score
-            if score<= self.threshold:
-                return 0#no lineal
-            else:
-                return 1#lineal
-        except:
-            return -1#esto indica un error
-            pass
+        score = self.reg.score(self.data, self.dataResponse)
+
+        if score<= self.threshold:
+            return 0#no lineal
+        else:
+            return 1#lineal

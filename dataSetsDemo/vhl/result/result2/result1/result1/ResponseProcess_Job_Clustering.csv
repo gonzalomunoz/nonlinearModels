@@ -1,0 +1,19 @@
+,algorithm,params,groups,memberG1,memberG2,calinski_harabaz_score,silhouette_score
+1,K-Means,K = 2,2,16,36,8.698373680975545,0.19056341644791172
+2,Birch,K = 2,2,10,42,7.7851599936072144,0.22111771274350736
+3,AgglomerativeClustering,affinity = euclidean linkage = ward k = 2,2,16,36,8.698373680975545,0.19056341644791172
+4,AgglomerativeClustering,affinity = euclidean linkage = complete k = 2,2,51,1,4.096711196910369,0.39408839810773993
+5,AgglomerativeClustering,affinity = euclidean linkage = average k = 2,2,51,1,4.096711196910369,0.39408839810773993
+6,AgglomerativeClustering,affinity = euclidean linkage = single k = 2,2,51,1,4.096711196910369,0.39408839810773993
+7,AgglomerativeClustering,affinity = l1 linkage = complete k = 2,2,49,3,6.732730904278888,0.3052226323760238
+8,AgglomerativeClustering,affinity = l1 linkage = average k = 2,2,49,3,6.732730904278888,0.3052226323760238
+9,AgglomerativeClustering,affinity = l1 linkage = single k = 2,2,49,3,6.732730904278888,0.3052226323760238
+10,AgglomerativeClustering,affinity = l2 linkage = complete k = 2,2,51,1,4.096711196910369,0.39408839810773993
+11,AgglomerativeClustering,affinity = l2 linkage = average k = 2,2,51,1,4.096711196910369,0.39408839810773993
+12,AgglomerativeClustering,affinity = l2 linkage = single k = 2,2,51,1,4.096711196910369,0.39408839810773993
+13,AgglomerativeClustering,affinity = manhattan linkage = complete k = 2,2,49,3,6.732730904278888,0.3052226323760238
+14,AgglomerativeClustering,affinity = manhattan linkage = average k = 2,2,49,3,6.732730904278888,0.3052226323760238
+15,AgglomerativeClustering,affinity = manhattan linkage = single k = 2,2,49,3,6.732730904278888,0.3052226323760238
+16,AgglomerativeClustering,affinity = cosine linkage = complete k = 2,2,26,26,6.661773799053823,0.11756108384005257
+17,AgglomerativeClustering,affinity = cosine linkage = average k = 2,2,35,17,8.245413740245095,0.17245093256078847
+18,AgglomerativeClustering,affinity = cosine linkage = single k = 2,2,51,1,4.096711196910369,0.39408839810773993

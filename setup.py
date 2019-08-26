@@ -38,7 +38,7 @@ class SetupConfiguration:
             author='David Medina',
             author_email='david.medina@cebib.cl',
             license='Open GPL 3',
-            packages=['modulesNLM', 'modulesNLM.clustering_analysis', 'modulesNLM.checks_module', 'modulesNLM.supervised_learning_analysis', 'modulesNLM.supervised_learning_predicction', 'modulesNLM.utils', 'modulesNLM.graphic', 'modulesNLM.statistics_analysis', 'modulesNLM.statisticsCorroboration'],)
+            packages=['modulesNLM', 'modulesNLM.clustering_analysis', 'modulesNLM.checks_module', 'modulesNLM.supervised_learning_analysis', 'modulesNLM.supervised_learning_predicction', 'modulesNLM.utils', 'modulesNLM.graphic', 'modulesNLM.statistics_analysis'],)
 
 def main():
 

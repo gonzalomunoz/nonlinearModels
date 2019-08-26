@@ -21,9 +21,11 @@
 ########################################################################
 import pandas as pd
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
-from pandas.tools.plotting import parallel_coordinates
+from pandas.plotting import parallel_coordinates
 
 class graphicsCreator(object):
 
@@ -171,8 +173,8 @@ class graphicsCreator(object):
             except:
                 pass
         sns_plot = sns.distplot(dataValues , color="olive", label=key, kde=False, rug=True)
-        sns.plt.legend()
-        sns.plt.title(title)
+        plt.legend()
+        plt.title(title)
         sns_plot.figure.savefig(exportName)
 
 
