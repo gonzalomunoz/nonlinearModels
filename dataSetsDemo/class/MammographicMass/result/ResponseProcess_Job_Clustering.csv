@@ -1,0 +1,19 @@
+,algorithm,params,groups,memberG1,memberG2,calinski_harabaz_score,silhouette_score
+1,K-Means,K = 2,2,350,104,94.66597847075943,0.30529257383821146
+2,Birch,K = 2,2,52,402,73.82486975627977,0.43598054550470583
+3,AgglomerativeClustering,affinity = euclidean linkage = ward k = 2,2,352,102,77.26709086992498,0.2914852704909619
+4,AgglomerativeClustering,affinity = euclidean linkage = complete k = 2,2,449,5,48.08919859255353,0.6284521650008873
+5,AgglomerativeClustering,affinity = euclidean linkage = average k = 2,2,449,5,48.08919859255353,0.6284521650008873
+6,AgglomerativeClustering,affinity = euclidean linkage = single k = 2,2,3,451,33.934458010891966,0.6439357799246043
+7,AgglomerativeClustering,affinity = l1 linkage = complete k = 2,2,25,429,20.07903684345762,0.41375416722914676
+8,AgglomerativeClustering,affinity = l1 linkage = average k = 2,2,449,5,48.08919859255353,0.6284521650008873
+9,AgglomerativeClustering,affinity = l1 linkage = single k = 2,2,453,1,18.026309202512902,0.7025016793915428
+10,AgglomerativeClustering,affinity = l2 linkage = complete k = 2,2,449,5,48.08919859255353,0.6284521650008873
+11,AgglomerativeClustering,affinity = l2 linkage = average k = 2,2,449,5,48.08919859255353,0.6284521650008873
+12,AgglomerativeClustering,affinity = l2 linkage = single k = 2,2,3,451,33.934458010891966,0.6439357799246043
+13,AgglomerativeClustering,affinity = manhattan linkage = complete k = 2,2,25,429,20.07903684345762,0.41375416722914676
+14,AgglomerativeClustering,affinity = manhattan linkage = average k = 2,2,449,5,48.08919859255353,0.6284521650008873
+15,AgglomerativeClustering,affinity = manhattan linkage = single k = 2,2,453,1,18.026309202512902,0.7025016793915428
+16,AgglomerativeClustering,affinity = cosine linkage = complete k = 2,2,257,197,51.95528626771229,0.1341226831176281
+17,AgglomerativeClustering,affinity = cosine linkage = average k = 2,2,278,176,67.94533539885482,0.19275051701684995
+18,AgglomerativeClustering,affinity = cosine linkage = single k = 2,2,452,2,5.8240369425306655,0.36101604028942585

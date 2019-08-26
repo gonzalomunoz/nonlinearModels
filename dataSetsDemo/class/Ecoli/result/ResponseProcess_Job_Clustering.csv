@@ -1,0 +1,19 @@
+,algorithm,params,groups,memberG1,memberG2,calinski_harabaz_score,silhouette_score
+1,K-Means,K = 2,2,225,111,89.92029165987428,0.26570227810233843
+2,Birch,K = 2,2,187,149,86.01614271717808,0.23558861091089917
+3,AgglomerativeClustering,affinity = euclidean linkage = ward k = 2,2,187,149,86.01614271717808,0.23558861091089917
+4,AgglomerativeClustering,affinity = euclidean linkage = complete k = 2,2,335,1,54.13832297312435,0.8197349808205354
+5,AgglomerativeClustering,affinity = euclidean linkage = average k = 2,2,335,1,54.13832297312435,0.8197349808205354
+6,AgglomerativeClustering,affinity = euclidean linkage = single k = 2,2,335,1,54.13832297312435,0.8197349808205354
+7,AgglomerativeClustering,affinity = l1 linkage = complete k = 2,2,335,1,54.13832297312435,0.8197349808205354
+8,AgglomerativeClustering,affinity = l1 linkage = average k = 2,2,335,1,54.13832297312435,0.8197349808205354
+9,AgglomerativeClustering,affinity = l1 linkage = single k = 2,2,335,1,54.13832297312435,0.8197349808205354
+10,AgglomerativeClustering,affinity = l2 linkage = complete k = 2,2,335,1,54.13832297312435,0.8197349808205354
+11,AgglomerativeClustering,affinity = l2 linkage = average k = 2,2,335,1,54.13832297312435,0.8197349808205354
+12,AgglomerativeClustering,affinity = l2 linkage = single k = 2,2,335,1,54.13832297312435,0.8197349808205354
+13,AgglomerativeClustering,affinity = manhattan linkage = complete k = 2,2,335,1,54.13832297312435,0.8197349808205354
+14,AgglomerativeClustering,affinity = manhattan linkage = average k = 2,2,335,1,54.13832297312435,0.8197349808205354
+15,AgglomerativeClustering,affinity = manhattan linkage = single k = 2,2,335,1,54.13832297312435,0.8197349808205354
+16,AgglomerativeClustering,affinity = cosine linkage = complete k = 2,2,233,103,85.38495558835628,0.24892805016227218
+17,AgglomerativeClustering,affinity = cosine linkage = average k = 2,2,189,147,85.58510327529369,0.23336081799974098
+18,AgglomerativeClustering,affinity = cosine linkage = single k = 2,2,335,1,54.13832297312435,0.8197349808205354

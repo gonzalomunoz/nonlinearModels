@@ -1,0 +1,140 @@
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+51.3673833339
+0.188658742327
+[0]
+[4, 5, 10, 11]
+member1:  50.0
+member2:  50.0
+[50.0, 50.0]
+[55.46875, 44.53125]
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+21.3920874903
+0.164370651055
+[0]
+[4, 5, 10, 11, 17]
+member1:  28.90625
+member2:  21.09375
+[60.810810810810814, 39.189189189189186]
+[35.18518518518518, 64.81481481481481]
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+10.9683643768
+0.276937524195
+[0]
+[3, 4, 9, 10]
+member1:  14.453125
+member2:  14.453125
+[64.86486486486487, 35.13513513513514]
+[56.75675675675676, 43.24324324324324]
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+9.85869465401
+0.379371289193
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+member1:  13.28125
+member2:  1.171875
+Error I
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+7.02454246501
+0.225139984095
+[0]
+[5, 11]
+member1:  9.765625
+member2:  4.6875
+Error I
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+10.2021971011
+0.198459287928
+[0]
+[4, 5, 8, 10, 11, 14]
+member1:  7.03125
+member2:  14.0625
+[33.33333333333333, 66.66666666666666]
+[36.11111111111111, 63.888888888888886]
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+5.88670492481
+0.209930840581
+[0]
+[15]
+member1:  3.515625
+member2:  3.515625
+Error I
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+5.03804841329
+0.194223482622
+[0]
+[4, 5, 10, 11]
+member1:  11.328125
+member2:  2.734375
+Error I
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+21.2853739075
+0.459827730861
+[0]
+[3, 4, 5, 8, 9, 10, 11, 14, 17]
+member1:  40.234375
+member2:  9.765625
+[56.310679611650485, 43.689320388349515]
+[52.0, 48.0]
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+16.2122911253
+0.418885674138
+[0]
+[3, 4, 5, 7, 9, 10, 11, 13]
+member1:  20.3125
+member2:  19.921875
+[51.92307692307693, 48.07692307692308]
+[60.78431372549019, 39.21568627450981]
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+8.69837368098
+0.394088398108
+[0, 2]
+[3, 4, 5, 9, 10, 11, 17]
+member1:  6.25
+member2:  14.0625
+[43.75, 56.25]
+[55.55555555555556, 44.44444444444444]
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+Error II
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+Error II
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+11.0507998751
+0.513416403984
+[0, 6, 12, 16]
+[3, 4, 5, 7, 8, 9, 10, 11, 13, 14]
+member1:  3.125
+member2:  16.796875
+Error I
+Process K-Means
+Process Birch
+Process AgglomerativeClustering
+Error II
+Imprimir

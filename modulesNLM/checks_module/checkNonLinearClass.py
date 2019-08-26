@@ -104,7 +104,11 @@ class checkNonLinearClass(object):
                         AccuracyList.append(nuSVM.performanceData.scoreData[3])
                     except:
                         pass
-                    
+                    break
+                break
+            break
+
+
         #SVC
         for kernel in ['rbf', 'linear', 'poly', 'sigmoid', 'precomputed']:
             for C_value in [0.01, 0.05, 0.1, 0.5]:
@@ -118,9 +122,12 @@ class checkNonLinearClass(object):
                         AccuracyList.append(svm.performanceData.scoreData[3])
                     except:
                         pass
+                    break
+                break
+            break
 
         try:
-
+            print max(AccuracyList)
             if max(AccuracyList)<=self.threshold:
                 return 0#no lineal
             else:
